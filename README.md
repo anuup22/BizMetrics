@@ -14,9 +14,9 @@ A FastAPI application designed to process company turnover files and provide val
 ## Installation
 Clone the repository and set up the virtual environment:
 ```sh
-git clone https://github.com/your-repo/fastapi-investment-app.git
-cd fastapi-investment-app
-python -m venv venv
+git clone https://github.com/anuup22/BizMetrics.git
+cd BizMetrics
+python -m venv .venv
 source venv/bin/activate
 pip install -r requirements.txt
 ```
