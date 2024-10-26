@@ -1,11 +1,29 @@
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import FastAPI, Depends, HTTPException, File, UploadFile
 from sqlalchemy.orm import Session
 from . import models, schemas, crud
 from .database import engine, get_db
+import pandas as pd
+from PyPDF2 import PdfFileReader
+import io
 
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
+
+@app.post("/uploadfile/")
+async def create_upload_file(file: UploadFile = File(...)):
+    if file.content_type == 'application/pdf':
+        pdf_reader = PdfFileReader(file.file)
+        # Process PDF file
+    elif file.content_type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+        df = pd.read_excel(file.file)
+        # Process Excel file
+    elif file.content_type == 'text/csv':
+        df = pd.read_csv(file.file)
+        # Process CSV file
+    else:
+        raise HTTPException(status_code=400, detail="Invalid file type")
+    return {"filename": file.filename}
 
 @app.post("/turnovers/", response_model=schemas.Turnover)
 def create_turnover(turnover: schemas.TurnoverCreate, db: Session = Depends(get_db)):
