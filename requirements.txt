@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+sqlalchemy
+psycopg2-binary
+pandas
+openpyxl
+PyPDF2
+python-dotenv
+pydantic-settings
